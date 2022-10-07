@@ -15,12 +15,8 @@ function App() {
     <div>
       <NavBar />
       <Routes>
-        <Route path="/movies">
-          <MoviesPage movies={movies} />
-        </Route>
-        <Route path="/">
-          <div>Home</div>
-        </Route>
+        <Route path="/movies" element={<MoviesPage movies={movies} />} />
+        <Route path="/" element={<div>Home</div>} />
       </Routes>
     </div>
   );

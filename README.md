@@ -62,19 +62,19 @@ Our final component hierarchy will look like this:
 ```
 
 The `App` component will render the `NavBar` and `MoviesPage` components and is
-where we'll define our top-level `Route`s. The `MoviesPage` component will be
-the parent to the two presentational components, `MoviesList` and `MovieShow`,
-and is where we'll set up our nested route.
+where we'll define our top-level `Routes`. The `MoviesPage` component will be
+the parent with an `Outlet` for the two presentational components, `MoviesList`
+and `MovieShow`, and is where we'll set up our nested route.
 
 ## Nesting
 
-So far, we've only seen `Route`s side by side, but that won't really work in
-this example. When a list item is clicked, we want to see the details of that
+In this lesson, when a list item is clicked, we want to see the details of that
 item, but **we still want the list to display**.
 
-Instead of listing two `Route`s side by side, we can set up the list/detail
-pattern by using React Router to make our `Item` component the _child_ of the
-`List` component.
+In a previous lesson, we learned how to nest routes that allowed two components
+to be displayed at the same time. However, in that case we knew exactly what the
+nested routes and their paths were going to be. What if we want our nested
+routes and paths to be more variable?
 
 Think of YouTube again for a moment. Let's pretend that visiting `/videos`
 displays a `List` of videos. Clicking on any video should keep our list of
@@ -103,40 +103,46 @@ const [movies, setMovies] = useState({
 });
 ```
 
-Looking at the `index.js` file, we see that we have `Router` wrapping our `App`.
-All JSX wrapped within `Router` can use `Route`s, including the JSX from any
-child components. In our case, that is _all_ of our components.
+Looking at the `index.tsx` file, we see that we have `Router` wrapping our
+`App`. All JSX wrapped within `Router` can use `Route`s, including the JSX from
+any child components. In our case, that is _all_ of our components.
 
 `App` has two `Route` elements:
 
 ```jsx
-<Switch>
-  <Route path="/movies">
-    <MoviesPage movies={movies} />
-  </Route>
-  <Route exact path="/">
-    <div>Home</div>
-  </Route>
-</Switch>
+// src/components/App.tsx
+<Routes>
+  <Routes>
+    <Route path="/movies" element={<MoviesPage movies={movies} />} />
+    <Route path="/" element={<div>Home</div>} />
+  </Routes>
+</Routes>
 ```
 
+> **Note**: Notice how the `element` prop can accept components even with props
+> passed down to them and regular HTML elements.
+
 Looking at the `MoviesPage` component, this component is responsible for loading
-our `MoviesList` component and passing in the movies we received from `App`.
+our `MoviesList` component and passing in the `movies` prop we received from
+`App`.
 
 ```jsx
-// ./src/components/MoviesPage.js
-import React from "react";
+// src/components/MoviesPage.tsx
 import { Route } from "react-router-dom";
 import MoviesList from "./MoviesList";
+import { MovieList } from "../types";
 
-function MoviesPage({ movies }) {
+interface Props {
+  movies: MovieList;
+}
+
+function MoviesPage({ movies }: Props) {
   return (
     <div>
       <MoviesList movies={movies} />
     </div>
   );
 }
-
 export default MoviesPage;
 ```
 
@@ -148,8 +154,7 @@ error because `MoviesList` is not defined yet!
 Let's create our `MoviesList` component to render a `<Link>` for each movie:
 
 ```jsx
-// ./src/components/MoviesList.js
-import React from "react";
+// src/components/MoviesList.tsx
 import { Link } from "react-router-dom";
 
 function MoviesList({ movies }) {
