@@ -4,8 +4,8 @@
 
 - Create nested routes in React Router
 - Use URL parameters in React Router
-- Use the `useRouteMatch` and `useParams` hooks to access information about
-  React Router's internal state
+- Use the `useMatch` and `useParams` hooks to access information about React
+  Router's internal state
 
 ## Introduction
 
