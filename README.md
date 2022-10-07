@@ -131,7 +131,6 @@ our `MoviesList` component and passing in the `movies` prop we received from
 
 ```jsx
 // src/components/MoviesPage.tsx
-import { Route } from "react-router-dom";
 import MoviesList from "./MoviesList";
 import { Movie } from "../types";
 
