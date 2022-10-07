@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import MoviesPage from "./MoviesPage";
+import MovieShow from "./MovieShow";
 import { Movie } from "../types";
 
 function App() {
@@ -15,7 +16,9 @@ function App() {
     <div>
       <NavBar />
       <Routes>
-        <Route path="/movies" element={<MoviesPage movies={movies} />} />
+        <Route path="/movies" element={<MoviesPage movies={movies} />}>
+          <Route path={`:movieId`} element={<MovieShow movies={movies} />} />
+        </Route>
         <Route path="/" element={<div>Home</div>} />
       </Routes>
     </div>
