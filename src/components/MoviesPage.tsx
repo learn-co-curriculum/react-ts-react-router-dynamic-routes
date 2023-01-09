@@ -1,8 +1,11 @@
-import React from "react";
-import { Route } from "react-router-dom";
+import { Movie } from "../types";
 import MoviesList from "./MoviesList";
 
-function MoviesPage({ movies }) {
+interface Props {
+  movies: Movie[];
+}
+
+function MoviesPage({ movies }: Props) {
   return (
     <div>
       <MoviesList movies={movies} />
